@@ -108,79 +108,85 @@ def hidden_file(file):
         return 0
 
 
-for filename in os.listdir(src_folder_path):
-    if os.path.isdir(os.path.join(src_folder_path, filename)):
-        continue
+def organize_files(src_folder_path,organized_folder):
 
-    extension = filename.split(".")[-1]
+    for filename in os.listdir(src_folder_path):
+        if os.path.isdir(os.path.join(src_folder_path, filename)):
+            continue
 
-    if hidden_file(filename)==1:
-        os.makedirs(os.path.join(organized_folder,"Linux"),exist_ok=True)
-        if handle_duplicate(filename, os.path.join(organized_folder,"Linux"))==0:
-            shutil.move(os.path.join(src_folder_path,filename),os.path.join(organized_folder,"Linux"))
+        extension = filename.split(".")[-1]
+
+        if hidden_file(filename)==1:
+            os.makedirs(os.path.join(organized_folder,"Linux"),exist_ok=True)
+            if handle_duplicate(filename, os.path.join(organized_folder,"Linux"))==0:
+                shutil.move(os.path.join(src_folder_path,filename),os.path.join(organized_folder,"Linux"))
+            else:
+                new_filename=handle_collision(filename,os.path.join(organized_folder,"Linux"))
+                shutil.move(os.path.join(src_folder_path,filename),os.path.join(organized_folder,"Linux",new_filename))
+
+        elif extension.lower() in CODE or extension.lower() in EXECUTABLES:
+            os.makedirs(os.path.join(organized_folder, "Exe"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Exe")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Exe"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Exe"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Exe", new_filename))
+
+        elif extension.lower() in VIDEOS:
+            os.makedirs(os.path.join(organized_folder, "Videos"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Videos")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Videos"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Videos"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Videos", new_filename))
+
+        elif extension.lower() in IMAGES:
+            os.makedirs(os.path.join(organized_folder, "Images"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Images")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Images"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Images"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Images", new_filename))
+
+        elif extension.lower() in AUDIO:
+            os.makedirs(os.path.join(organized_folder, "Audios"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Audios")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Audios"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Audios"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Audios", new_filename))
+
+        elif extension.lower() in DOCUMENTS:
+            os.makedirs(os.path.join(organized_folder, "Docs"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Docs")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Docs"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Docs"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Docs", new_filename))
+
+        elif extension.lower() in ARCHIVES:
+            os.makedirs(os.path.join(organized_folder, "Archives"), exist_ok=True)
+
+            if handle_duplicate(filename, os.path.join(organized_folder, "Archives")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Archives"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Archives"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Archives", new_filename))
+
         else:
-            new_filename=handle_collision(filename,os.path.join(organized_folder,"Linux"))
-            shutil.move(os.path.join(src_folder_path,filename),os.path.join(organized_folder,"Linux",new_filename))
+            os.makedirs(os.path.join(organized_folder, "Others"), exist_ok=True)
 
-    elif extension.lower() in CODE or extension.lower() in EXECUTABLES:
-        os.makedirs(os.path.join(organized_folder, "Exe"), exist_ok=True)
+            if handle_duplicate(filename, os.path.join(organized_folder, "Others")) == 0:
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Others"))
+            else:
+                new_filename = handle_collision(filename, os.path.join(organized_folder, "Others"))
+                shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Others", new_filename))
 
-        if handle_duplicate(filename, os.path.join(organized_folder, "Exe")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Exe"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Exe"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Exe", new_filename))
 
-    elif extension.lower() in VIDEOS:
-        os.makedirs(os.path.join(organized_folder, "Videos"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Videos")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Videos"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Videos"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Videos", new_filename))
-
-    elif extension.lower() in IMAGES:
-        os.makedirs(os.path.join(organized_folder, "Images"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Images")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Images"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Images"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Images", new_filename))
-
-    elif extension.lower() in AUDIO:
-        os.makedirs(os.path.join(organized_folder, "Audios"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Audios")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Audios"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Audios"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Audios", new_filename))
-
-    elif extension.lower() in DOCUMENTS:
-        os.makedirs(os.path.join(organized_folder, "Docs"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Docs")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Docs"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Docs"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Docs", new_filename))
-
-    elif extension.lower() in ARCHIVES:
-        os.makedirs(os.path.join(organized_folder, "Archives"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Archives")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Archives"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Archives"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Archives", new_filename))
-
-    else:
-        os.makedirs(os.path.join(organized_folder, "Others"), exist_ok=True)
-
-        if handle_duplicate(filename, os.path.join(organized_folder, "Others")) == 0:
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Others"))
-        else:
-            new_filename = handle_collision(filename, os.path.join(organized_folder, "Others"))
-            shutil.move(os.path.join(src_folder_path, filename), os.path.join(organized_folder, "Others", new_filename))
+if __name__== "__main__":
+    organize_files(src_folder_path,organized_folder)
